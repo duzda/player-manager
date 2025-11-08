@@ -1,0 +1,3 @@
+option('supported_players', type: 'array')
+option('title_length', type: 'integer', value: 20)
+option('artist_length', type: 'integer', value: 30)

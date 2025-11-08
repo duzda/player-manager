@@ -1,0 +1,58 @@
+name: Gating
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install tools
+        run: sudo apt install ninja-build meson gcc playerctl
+
+      - name: Create build folder
+        run: meson setup build
+
+      - name: Compile
+        run: meson compile -C build
+
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install tools
+        run: sudo apt install ninja-build meson gcc playerctl clang-format
+
+      - name: Create build folder
+        run: meson setup build
+
+      - name: Format check
+        run: ninja -C build clang-format-check
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install tools
+        run: sudo apt install ninja-build meson gcc playerctl clang-tidy
+
+      - name: Create build folder
+        run: meson setup build
+
+      - name: Change directory
+        run: cd build
+
+      - name: Lint
+        run: clang-tidy ../main.cpp
+
