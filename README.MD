@@ -61,6 +61,10 @@ The configuration for Waybar can look as follows:
 
 In case of changes, I've added `clang-tidy` and `clang-format` that help me with making the codebase consistent, readable and bug-free.
 
+### Debugging
+
+For vscode there is defined a custom task `Debug with Meson`, that can be used, be vary, as in the case of change in dependencies, the `tasks.json` file has to be edited (there is probably simpler way to debug Meson, I just don't know about yet).
+
 ### clang-tidy
 
 ```
