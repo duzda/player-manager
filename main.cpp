@@ -33,8 +33,8 @@ auto edit_title(std::string const& title) noexcept -> std::string {
   return new_title;
 }
 
-auto truncate_string(std::string const& string, std::size_t width) noexcept
-    -> std::string {
+auto truncate_string(std::string const& string,
+                     std::size_t width) noexcept -> std::string {
   if (string.length() > width) {
     std::string copy{string.begin(), string.begin() +
                                          static_cast<std::ptrdiff_t>(width) -
