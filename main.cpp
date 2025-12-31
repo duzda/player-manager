@@ -178,6 +178,8 @@ auto on_player_vanished(PlayerctlPlayerManager* manager,
   if (players != nullptr) {
     auto* player{static_cast<PlayerctlPlayer*>(players->data)};
     show_metadata(player);
+  } else {
+    std::cout << "\n" << std::flush;
   }
 }
 
