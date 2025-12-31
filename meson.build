@@ -24,4 +24,9 @@ configure_file(output: 'config.hpp', configuration: conf_data)
 
 source_files = files('main.cpp')
 
-executable('player-manager', source_files, dependencies: dependencies)
+cpp_args = [] 
+if get_option('buildtype') == 'release'
+    cpp_args = ['-DG_DISABLE_ASSERT']
+endif
+
+executable('player-manager', source_files, dependencies: dependencies, cpp_args: cpp_args)
