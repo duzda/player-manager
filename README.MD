@@ -32,8 +32,7 @@ Then build with meson:
 meson setup build --buildtype release
 cd build && (
     meson configure -Dsupported_players="['Deezer', 'DeaDBeeF']"
-    meson configure -DG_DISABLE_ASSERT
-    meson compile -C build
+    meson compile
 )
 ```
 
