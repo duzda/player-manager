@@ -67,7 +67,7 @@ auto get_string_value(PlayerctlPlayer* player,
 auto string_to_lowercase(std::string& string) noexcept -> void {
   std::ranges::transform(
       string.begin(), string.end(), string.begin(),
-      [](unsigned char letter) { return std::tolower(letter); });
+      [](unsigned char letter) -> int { return std::tolower(letter); });
 }
 
 auto show_metadata(PlayerctlPlayer* player) noexcept -> void {
@@ -99,16 +99,33 @@ auto show_metadata(PlayerctlPlayer* player) noexcept -> void {
 
   std::string truncated_title{
       truncate_string(title, ARTIST_LENGTH + free_space_title)};
-  std::string truncated_album{
+  std::string truncated_artist{
       truncate_string(artist, TITLE_LENGTH + free_space_artist)};
 
+  gchar* escaped_truncated_title = g_markup_escape_text(
+      truncated_title.c_str(), static_cast<gssize>(truncated_title.size()));
+  gchar* escaped_truncated_artist = g_markup_escape_text(
+      truncated_artist.c_str(), static_cast<gssize>(truncated_artist.size()));
+  gchar* escaped_title =
+      g_markup_escape_text(title.c_str(), static_cast<gssize>(title.size()));
+  gchar* escaped_artist =
+      g_markup_escape_text(artist.c_str(), static_cast<gssize>(artist.size()));
+  gchar* escaped_album =
+      g_markup_escape_text(album.c_str(), static_cast<gssize>(album.size()));
+
   std::cout << R"({"text": ")";
-  std::cout << truncated_title << " - " << truncated_album;
+  std::cout << escaped_truncated_title << " - " << escaped_truncated_artist;
   std::cout << R"(", "tooltip": ")";
-  std::cout << player_name << " (" << status << "): " << title << " - "
-            << artist << " - " << album;
+  std::cout << player_name << " (" << status << "): " << escaped_title << " - "
+            << escaped_artist << " - " << escaped_album;
   std::cout << R"("})" << '\n';
   std::cout << std::flush;
+
+  g_free(escaped_truncated_title);
+  g_free(escaped_truncated_artist);
+  g_free(escaped_title);
+  g_free(escaped_artist);
+  g_free(escaped_album);
 }
 
 auto on_metadata(PlayerctlPlayer* player, GVariant* metadata) noexcept -> void {
