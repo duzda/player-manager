@@ -92,10 +92,10 @@ auto show_metadata(PlayerctlPlayer* player) noexcept -> void {
   std::string album{get_string_value(player, playerctl_player_get_album,
                                      "Error obtaining album! ")};
 
-  auto free_space_title{
-      std::max(static_cast<std::size_t>(0), TITLE_LENGTH - artist.length())};
-  auto free_space_artist{
-      std::max(static_cast<std::size_t>(0), ARTIST_LENGTH - title.length())};
+  auto free_space_title{std::max(std::size_t{TITLE_LENGTH}, artist.length()) -
+                        TITLE_LENGTH};
+  auto free_space_artist{std::max(std::size_t{ARTIST_LENGTH}, title.length()) -
+                         ARTIST_LENGTH};
 
   std::string truncated_title{
       truncate_string(title, ARTIST_LENGTH + free_space_title)};
